@@ -1,0 +1,46 @@
+;;; axiom-help-mode.el -- Major mode for Axiom help descriptions
+
+;; Copyright (C) 2013 Paul Onions
+
+;; Author: Paul Onions <paul.onions@acm.org>
+;; Keywords: Axiom, OpenAxiom, FriCAS
+
+;; This file is free software, see the LICENCE file in this directory
+;; for copying terms.
+
+;;; Commentary:
+
+;; A major mode to use in Axiom help text buffers.
+
+;;; Code:
+
+(require 'axiom-base)
+
+(defvar axiom-help-package-face  'axiom-package-name)
+(defvar axiom-help-domain-face   'axiom-domain-name)
+(defvar axiom-help-category-face 'axiom-category-name)
+
+(defvar axiom-help-mode-syntax-table
+  (copy-syntax-table axiom-common-syntax-table)
+  "The Axiom help mode syntax table.")
+
+(defvar axiom-help-font-lock-keywords
+  (list (cons axiom-standard-packages-regexp   'axiom-help-package-face)
+        (cons axiom-standard-domains-regexp    'axiom-help-domain-face)
+        (cons axiom-standard-categories-regexp 'axiom-help-category-face)))
+
+(defvar axiom-help-mode-map
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map axiom-common-keymap)
+    map)
+  "The Axiom Help mode local keymap.")
+
+(defvar axiom-help-mode-hook nil
+  "Hook for customizing Axiom Help mode.")
+
+(define-derived-mode axiom-help-mode prog-mode "Axiom Help"
+  "Major mode for Axiom Help buffers."
+  :group 'axiom
+  (setq font-lock-defaults (list axiom-help-font-lock-keywords)))
+
+(provide 'axiom-help-mode)

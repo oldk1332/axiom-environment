@@ -1,0 +1,105 @@
+
+AN AXIOM ENVIRONMENT FOR EMACS
+==============================
+
+My intention in writing this software is to make it easier to work
+with, and understand, the Axiom, OpenAxiom and FriCAS computer algebra
+systems.  I am writing it to allow me to explore these systems and so
+hopefully become more productive with them.  By publishing it I hope
+that others too will be able to benefit from my efforts.
+
+This software implements four different major modes for the Emacs text
+editor:
+
+  1. axiom-process-mode: for interaction with a running Axiom process.
+
+  2. axiom-help-mode: for displaying help information about the Axiom
+     system.
+  
+  3. axiom-input-mode: for editing a .input (Axiom script) file.
+
+  4. axiom-spad-mode: for editing Axiom library code written in the
+     SPAD language.
+
+The main features of these modes (so far) are syntax highlighting to
+display package names, domain names and category names in distinct
+colours, and quick access to popup buffers displaying summary
+information about these types and their operations.  The former allows
+to see at a glance which ``level'' of the type system we are concerned
+with (domains or categories), and the latter allows us to examine (and
+re-examine) these types without interupting our workflow
+(i.e. interaction in the Axiom REPL).
+
+
+INSTALLATION
+============
+
+To install the software the easiest thing to do is to clone the
+mercurial repository (hosted at bitbucket.org) into your directory of
+choice:
+
+  cd /my/directory/of/choice
+
+  hg clone http://hg@bitbucket.org/pdo/axiom-environment
+
+then add the following line to your .emacs file:
+
+  (load-file "/my/directory/of/choice/axiom-environment/axiom.el")
+
+This will load the environment, automatically putting .spad and .input
+files into ``Axiom SPAD'' and ``Axiom Input'' mode, respectively, and
+giving access to an ``Axiom'' menu in these modes.
+
+To exercise more control over how exactly the environment is setup,
+please see the comments at the start of the ``axiom.el'' file.
+
+To start an interactive Axiom session do:
+
+  M-x run-axiom
+
+Note that by default this will attempt to start the FriCAS program
+(with command "fricas -nosman"), but that this can be changed using an
+Emacs customization variable.  In fact many customization variables
+exist, for different aspects of the environment, under the ``Axiom''
+customization group.
+
+An easy way of managing arbitrary collections of customization
+variables is available via the Emacs ``theme'' mechanism.  An example
+theme file showing how to setup the environment to work with FriCAS on
+SBCL is included in the ``themes'' subdirectory of this distribution.
+
+
+BUGS
+====
+
+Please note that development of this software started with Emacs 24.2
+and it is quite likely that it won't work with earlier versions.
+
+Also, the only testing so far is with FriCAS 1.1.8 compiled with SBCL
+1.1.1 running on an old PPC MAC OSX laptop.  It hasn't yet received
+any testing with Axiom or OpenAxiom because they don't compile on that
+machine.  However, there should be no reason (as far as I know) for it
+not working with these other flavours of Axiom on other machine
+architectures, so I would consider it a bug if you encounter problems.
+
+Please send bug reports to:
+
+  Paul Onions <paul.onions@acm.org>
+
+
+TO DO
+=====
+
+As ever, this is a work in progress.  Further work is planned for the
+following:
+
+  1. Syntax highlighting of Axiom package/domain/category abbreviations.
+
+  2. ???
+
+but of course this is all done in my spare time, which comes and goes as life
+and other interests permit.  So don't hold your breath!
+
+--
+Paul Onions
+31 March 2013
