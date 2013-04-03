@@ -20,23 +20,23 @@
 (defgroup axiom nil
   "An environment for working with the Axiom computer algebra system.")
 
-(defcustom axiom-standard-package-names-file "fricas-standard-package-names.el"
-  "File from which to `read' a list of standard package names."
+(defcustom axiom-standard-package-info-file "fricas-standard-package-info.el"
+  "File from which to `read' standard package information."
   :type 'string
   :group 'axiom)
 
-(defcustom axiom-standard-domain-names-file "fricas-standard-domain-names.el"
-  "File from which to `read' a list of standard domain names."
+(defcustom axiom-standard-domain-info-file "fricas-standard-domain-info.el"
+  "File from which to `read' standard domain information."
   :type 'string
   :group 'axiom)
 
-(defcustom axiom-standard-category-names-file "fricas-standard-category-names.el"
-  "File from which to `read' a list of standard category names."
+(defcustom axiom-standard-category-info-file "fricas-standard-category-info.el"
+  "File from which to `read' standard category information."
   :type 'string
   :group 'axiom)
 
-(defcustom axiom-standard-operation-names-file "fricas-standard-operation-names.el"
-  "File from which to `read' a list of standard operation names."
+(defcustom axiom-standard-operation-info-file "fricas-standard-operation-info.el"
+  "File from which to `read' standard operation information."
   :type 'string
   :group 'axiom)
 
@@ -91,43 +91,59 @@ string (either relative or absolute)."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load standard package/domain/category/operation names files
 ;;
-(message "Loading standard Axiom package names")
+(message "Loading standard Axiom package information")
+
+(defvar axiom-standard-package-info
+  (axiom-read-data-file axiom-standard-package-info-file)
+  "A list of standard Axiom package (abbrev . name) pairs.")
 
 (defvar axiom-standard-package-names
-  (axiom-read-data-file axiom-standard-package-names-file)
+  (mapcar 'cdr axiom-standard-package-info)
   "A list of standard Axiom package names.")
-
-(defvar axiom-standard-packages-regexp
+  
+(defvar axiom-standard-package-names-regexp
   (concat "\\<" (regexp-opt (mapcar 'regexp-quote axiom-standard-package-names)) "\\>")
   "Regular expression for Axiom standard package names.")
 
-(message "Loading standard Axiom domain names")
+(message "Loading standard Axiom domain information")
+
+(defvar axiom-standard-domain-info
+  (axiom-read-data-file axiom-standard-domain-info-file)
+  "A list of standard Axiom domain (abbrev . name) pairs.")
 
 (defvar axiom-standard-domain-names
-  (axiom-read-data-file axiom-standard-domain-names-file)
+  (mapcar 'cdr axiom-standard-domain-info)
   "A list of standard Axiom domain names.")
-
-(defvar axiom-standard-domains-regexp
+  
+(defvar axiom-standard-domain-names-regexp
   (concat "\\<" (regexp-opt (mapcar 'regexp-quote axiom-standard-domain-names)) "\\>")
   "Regular expression for Axiom standard domain names.")
 
-(message "Loading standard Axiom category names")
+(message "Loading standard Axiom category information")
+
+(defvar axiom-standard-category-info
+  (axiom-read-data-file axiom-standard-category-info-file)
+  "A list of standard Axiom category (abbrev . name) pairs.")
 
 (defvar axiom-standard-category-names
-  (axiom-read-data-file axiom-standard-category-names-file)
+  (mapcar 'cdr axiom-standard-category-info)
   "A list of standard Axiom category names.")
-
-(defvar axiom-standard-categories-regexp
+  
+(defvar axiom-standard-category-names-regexp
   (concat "\\<" (regexp-opt (mapcar 'regexp-quote axiom-standard-category-names)) "\\>")
   "Regular expression for Axiom standard category names.")
 
-(message "Loading standard Axiom operation names")
+(message "Loading standard Axiom operation information")
 
-(defvar axiom-standard-operation-names
-  (axiom-read-data-file axiom-standard-operation-names-file)
+(defvar axiom-standard-operation-info
+  (axiom-read-data-file axiom-standard-operation-info-file)
   "A list of standard Axiom operation names.")
 
-(defvar axiom-standard-operation-regexp
+(defvar axiom-standard-operation-names
+  axiom-standard-operation-info
+  "A list of standard Axiom operation names.")
+
+(defvar axiom-standard-operation-names-regexp
   (concat "\\<" (regexp-opt (mapcar 'regexp-quote axiom-standard-operation-names)) "\\>")
   "Regular expression for Axiom standard operation names.")
 

@@ -392,9 +392,9 @@ prefix argument."
 (defvar axiom-process-category-face 'axiom-category-name)
 
 (defvar axiom-process-font-lock-keywords
-  (list (cons axiom-standard-packages-regexp   'axiom-process-package-face)
-        (cons axiom-standard-domains-regexp    'axiom-process-domain-face)
-        (cons axiom-standard-categories-regexp 'axiom-process-category-face)))
+  (list (cons axiom-standard-package-names-regexp  'axiom-process-package-face)
+        (cons axiom-standard-domain-names-regexp   'axiom-process-domain-face)
+        (cons axiom-standard-category-names-regexp 'axiom-process-category-face)))
 
 (define-derived-mode axiom-process-mode comint-mode "Axiom Process"
   "Major mode for interaction with a running Axiom process."

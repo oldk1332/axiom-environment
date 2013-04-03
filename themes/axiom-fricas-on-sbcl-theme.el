@@ -30,15 +30,15 @@
   '(axiom-process-preamble ""))
 
 (custom-theme-set-variables 'axiom-fricas
-  '(axiom-standard-package-names-file "fricas-standard-package-names.el"))
+  '(axiom-standard-package-info-file "fricas-standard-package-info.el"))
 
 (custom-theme-set-variables 'axiom-fricas
-  '(axiom-standard-domain-names-file "fricas-standard-domain-names.el"))
+  '(axiom-standard-domain-info-file "fricas-standard-domain-info.el"))
 
 (custom-theme-set-variables 'axiom-fricas
-  '(axiom-standard-category-names-file "fricas-standard-category-names.el"))
+  '(axiom-standard-category-info-file "fricas-standard-category-info.el"))
 
 (custom-theme-set-variables 'axiom-fricas
-  '(axiom-standard-operation-names-file "fricas-standard-operation-names.el"))
+  '(axiom-standard-operation-info-file "fricas-standard-operation-info.el"))
 
 (provide-theme 'axiom-fricas)

@@ -54,12 +54,48 @@ TYPE should be either :package, :domain or :category."
             (setq names (cons name names)))))
       (reverse names))))
 
-(defun axiom-make-standard-constructor-names-files ()
-  (let ((default-directory axiom-environment-data-dir))
-    (axiom-write-data-file (axiom-get-constructor-names-list :package)  axiom-standard-package-names-file)
-    (axiom-write-data-file (axiom-get-constructor-names-list :domain)   axiom-standard-domain-names-file)
-    (axiom-write-data-file (axiom-get-constructor-names-list :category) axiom-standard-category-names-file)))
+(defun axiom-get-abbreviation (constructor-name)
+  "Return the abbreviation for the given constructor name."
+  (with-current-buffer (get-buffer-create axiom-build-query-buffer-name)
+    (erase-buffer)
+    (axiom-process-redirect-send-command
+     (format ")abbrev query %s" constructor-name)
+     (current-buffer))
+    (goto-char (point-min))
+    (when (re-search-forward "\\([[:word:]]+\\)[[:space:]]+abbreviates[[:space:]]+\\(package\\|domain\\|category\\)[[:space:]]+\\([[:word:]]+\\)" nil t)
+      (match-string 1))))
 
-(defun axiom-make-standard-operation-names-file ()
+(defun axiom-make-abbreviations-alist (names-list)
+  "Return a list of (abbrev . name) pairs."
+  (mapcar (lambda (name)
+            (cons (axiom-get-abbreviation name) name))
+          names-list))
+
+(defun axiom-make-standard-package-info-file ()
   (let ((default-directory axiom-environment-data-dir))
-    (axiom-write-data-file (axiom-get-operation-names-list) axiom-standard-operation-names-file)))
+    (axiom-write-data-file (axiom-make-abbreviations-alist
+                            (axiom-get-constructor-names-list :package))
+                           axiom-standard-package-info-file)))
+
+(defun axiom-make-standard-domain-info-file ()
+  (let ((default-directory axiom-environment-data-dir))
+    (axiom-write-data-file (axiom-make-abbreviations-alist
+                            (axiom-get-constructor-names-list :domain))
+                           axiom-standard-domain-info-file)))
+
+(defun axiom-make-standard-category-info-file ()
+  (let ((default-directory axiom-environment-data-dir))
+    (axiom-write-data-file (axiom-make-abbreviations-alist
+                            (axiom-get-constructor-names-list :category))
+                           axiom-standard-category-info-file)))
+
+(defun axiom-make-standard-operation-info-file ()
+  (let ((default-directory axiom-environment-data-dir))
+    (axiom-write-data-file (axiom-get-operation-names-list)
+                           axiom-standard-operation-info-file)))
+
+(defun axiom-make-standard-info-files ()
+  (axiom-make-standard-package-info-file)
+  (axiom-make-standard-domain-info-file)
+  (axiom-make-standard-category-info-file)
+  (axiom-make-standard-operation-info-file))

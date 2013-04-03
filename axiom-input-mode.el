@@ -39,10 +39,10 @@
 (defvar axiom-input-category-face 'axiom-category-name)
 
 (defvar axiom-input-font-lock-keywords
-  (list (cons axiom-input-keywords-regexp      'axiom-input-keyword-face)
-        (cons axiom-standard-packages-regexp   'axiom-input-package-face)
-        (cons axiom-standard-domains-regexp    'axiom-input-domain-face)
-        (cons axiom-standard-categories-regexp 'axiom-input-category-face)))
+  (list (cons axiom-input-keywords-regexp          'axiom-input-keyword-face)
+        (cons axiom-standard-package-names-regexp  'axiom-input-package-face)
+        (cons axiom-standard-domain-names-regexp   'axiom-input-domain-face)
+        (cons axiom-standard-category-names-regexp 'axiom-input-category-face)))
 
 (defvar axiom-input-mode-map
   (let ((map (make-sparse-keymap)))
