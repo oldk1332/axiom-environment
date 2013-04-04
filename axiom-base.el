@@ -105,6 +105,19 @@ string (either relative or absolute)."
   (concat "\\<" (regexp-opt (mapcar 'regexp-quote axiom-standard-package-names)) "\\>")
   "Regular expression for Axiom standard package names.")
 
+(defvar axiom-standard-package-abbreviations
+  (remove nil (mapcar 'car axiom-standard-package-info))
+  "A list of standard Axiom package abbreviations.")
+
+(defvar axiom-standard-package-abbreviations-regexp
+  (concat "\\<" (regexp-opt (mapcar 'regexp-quote axiom-standard-package-abbreviations)) "\\>")
+  "Regular expression for Axiom standard package abbreviations.")
+
+(defvar axiom-standard-package-names-and-abbreviations
+  (append axiom-standard-package-names
+          axiom-standard-package-abbreviations)
+  "Standard Axiom package names and abbreviations.")
+
 (message "Loading standard Axiom domain information")
 
 (defvar axiom-standard-domain-info
@@ -118,6 +131,19 @@ string (either relative or absolute)."
 (defvar axiom-standard-domain-names-regexp
   (concat "\\<" (regexp-opt (mapcar 'regexp-quote axiom-standard-domain-names)) "\\>")
   "Regular expression for Axiom standard domain names.")
+
+(defvar axiom-standard-domain-abbreviations
+  (remove nil (mapcar 'car axiom-standard-domain-info))
+  "A list of standard Axiom domain abbreviations.")
+
+(defvar axiom-standard-domain-abbreviations-regexp
+  (concat "\\<" (regexp-opt (mapcar 'regexp-quote axiom-standard-domain-abbreviations)) "\\>")
+  "Regular expression for Axiom standard domain abbreviations.")
+
+(defvar axiom-standard-domain-names-and-abbreviations
+  (append axiom-standard-domain-names
+          axiom-standard-domain-abbreviations)
+  "Standard Axiom domain names and abbreviations.")
 
 (message "Loading standard Axiom category information")
 
@@ -133,6 +159,19 @@ string (either relative or absolute)."
   (concat "\\<" (regexp-opt (mapcar 'regexp-quote axiom-standard-category-names)) "\\>")
   "Regular expression for Axiom standard category names.")
 
+(defvar axiom-standard-category-abbreviations
+  (remove nil (mapcar 'car axiom-standard-category-info))
+  "A list of standard Axiom category abbreviations.")
+
+(defvar axiom-standard-category-abbreviations-regexp
+  (concat "\\<" (regexp-opt (mapcar 'regexp-quote axiom-standard-category-abbreviations)) "\\>")
+  "Regular expression for Axiom standard category abbreviations.")
+
+(defvar axiom-standard-category-names-and-abbreviations
+  (append axiom-standard-category-names
+          axiom-standard-category-abbreviations)
+  "Standard Axiom category names and abbreviations.")
+
 (message "Loading standard Axiom operation information")
 
 (defvar axiom-standard-operation-info
@@ -147,18 +186,34 @@ string (either relative or absolute)."
   (concat "\\<" (regexp-opt (mapcar 'regexp-quote axiom-standard-operation-names)) "\\>")
   "Regular expression for Axiom standard operation names.")
 
-;; A list combining the package, domain and category names
+;; Lists combining package, domain & category names and/or abbreviations
 (defvar axiom-standard-constructor-names
   (append axiom-standard-package-names
           axiom-standard-domain-names
           axiom-standard-category-names)
-  "Standard Axiom constructor names (package, domain & category).")
+  "Standard Axiom constructor names.")
 
-;; A list combining all constructor and operation names
+(defvar axiom-standard-constructor-abbreviations
+  (append axiom-standard-package-abbreviations
+          axiom-standard-domain-abbreviations
+          axiom-standard-category-abbreviations)
+  "Standard Axiom constructor abbreviations.")
+
+(defvar axiom-standard-constructor-names-and-abbreviations
+  (append axiom-standard-constructor-names
+          axiom-standard-constructor-abbreviations)
+  "Standard Axiom constructor names and abbreviations.")
+
+;; Lists combining all constructor and operation names and abbreviations
 (defvar axiom-standard-names
   (append axiom-standard-constructor-names
           axiom-standard-operation-names)
   "Standard Axiom names (package, domain, category & operation).")
+
+(defvar axiom-standard-names-and-abbreviations
+  (append axiom-standard-constructor-names-and-abbreviations
+          axiom-standard-operation-names)
+  "Standard Axiom names and abbreviationsa.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Common syntax table
@@ -178,7 +233,7 @@ string (either relative or absolute)."
     (modify-syntax-entry ?> "." table)
     (modify-syntax-entry ?# "." table)
     (modify-syntax-entry ?$ "." table)
-    (modify-syntax-entry ?& "w" table)
+    (modify-syntax-entry ?& "." table)
     (modify-syntax-entry ?% "w" table)
     (modify-syntax-entry ?! "w" table)
     (modify-syntax-entry ?? "w" table)

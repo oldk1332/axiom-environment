@@ -22,8 +22,8 @@ editor:
      SPAD language.
 
 The main features of these modes (so far) are syntax highlighting to
-display package names, domain names and category names in distinct
-colours, and quick access to popup buffers displaying summary
+display package, domain & category names and their abbreviations in
+distinct colours, and quick access to popup buffers displaying summary
 information about these types and their operations.  The former allows
 to see at a glance which ``level'' of the type system we are concerned
 with (domains or categories), and the latter allows us to examine (and
@@ -92,20 +92,6 @@ or click on the issue tracker tab at:
 
 and enter the details there.
 
-
-TO DO
-=====
-
-As ever, this is a work in progress.  Further work is planned for the
-following:
-
-  1. Syntax highlighting of Axiom package/domain/category abbreviations.
-
-  2. ???
-
-but of course this is all done in my spare time, which comes and goes as life
-and other interests permit.  So don't hold your breath!
-
 --
 Paul Onions
-1 April 2013
+4 April 2013

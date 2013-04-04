@@ -25,9 +25,12 @@
   "The Axiom help mode syntax table.")
 
 (defvar axiom-help-font-lock-keywords
-  (list (cons axiom-standard-package-names-regexp  'axiom-help-package-face)
-        (cons axiom-standard-domain-names-regexp   'axiom-help-domain-face)
-        (cons axiom-standard-category-names-regexp 'axiom-help-category-face)))
+  (list (cons axiom-standard-package-names-regexp          'axiom-help-package-face)
+        (cons axiom-standard-package-abbreviations-regexp  'axiom-help-package-face)
+        (cons axiom-standard-domain-names-regexp           'axiom-help-domain-face)
+        (cons axiom-standard-domain-abbreviations-regexp   'axiom-help-domain-face)
+        (cons axiom-standard-category-names-regexp         'axiom-help-category-face)
+        (cons axiom-standard-category-abbreviations-regexp 'axiom-help-category-face)))
 
 (defvar axiom-help-mode-map
   (let ((map (make-sparse-keymap)))

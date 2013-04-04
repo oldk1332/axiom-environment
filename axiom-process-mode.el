@@ -237,57 +237,87 @@ buffer, otherwise do not display it."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Browsing/inspection utility functions
 ;;
-(defun axiom-process-constructor-type (constructor-name)
-  (cond ((member constructor-name axiom-standard-package-names)
-         :package)
-        ((member constructor-name axiom-standard-domain-names)
-         :domain)
-        ((member constructor-name axiom-standard-category-names)
-         :category)
+(defun axiom-process-package-name (name-or-abbrev)
+  (let ((rslt (assoc name-or-abbrev axiom-standard-package-info)))
+    (if rslt
+        (cdr rslt)
+      name-or-abbrev)))
+
+(defun axiom-process-domain-name (name-or-abbrev)
+  (let ((rslt (assoc name-or-abbrev axiom-standard-domain-info)))
+    (if rslt
+        (cdr rslt)
+      name-or-abbrev)))
+
+(defun axiom-process-category-name (name-or-abbrev)
+  (let ((rslt (assoc name-or-abbrev axiom-standard-category-info)))
+    (if rslt
+        (cdr rslt)
+      name-or-abbrev)))
+
+(defun axiom-process-constructor-type (name-or-abbrev)
+  (cond ((member name-or-abbrev axiom-standard-package-names)
+         (cons :package :name))
+        ((member name-or-abbrev axiom-standard-package-abbreviations)
+         (cons :package :abbrev))
+        ((member name-or-abbrev axiom-standard-domain-names)
+         (cons :domain :name))
+        ((member name-or-abbrev axiom-standard-domain-abbreviations)
+         (cons :domain :abbrev))
+        ((member name-or-abbrev axiom-standard-category-names)
+         (cons :category :name))
+        ((member name-or-abbrev axiom-standard-category-abbreviations)
+         (cons :category :abbrev))
         (t
-         :constructor)))
+         (cons :constructor :unknown))))
 
-(defun axiom-process-constructor-buffer-name (constructor-name)
-  (format "*Axiom %s: %s*"
-          (capitalize
-           (subseq
-            (symbol-name
-             (axiom-process-constructor-type constructor-name)) 1))
-          constructor-name))
+(defun axiom-process-constructor-buffer-name (name-or-abbrev)
+  (let ((ctype (car (axiom-process-constructor-type name-or-abbrev))))
+    (format "*Axiom %s: %s*"
+            (capitalize (subseq (symbol-name ctype) 1))
+            (cond ((eq ctype :package)
+                   (axiom-process-package-name name-or-abbrev))
+                  ((eq ctype :domain)
+                   (axiom-process-domain-name name-or-abbrev))
+                  ((eq ctype :category)
+                   (axiom-process-category-name name-or-abbrev))
+                  (t
+                   name-or-abbrev)))))
 
-(defun axiom-process-show-constructor (constructor-name &optional force-update)
-  "Show information about CONSTRUCTOR-NAME in a popup buffer.
+(defun axiom-process-show-constructor (name-or-abbrev &optional force-update)
+  "Show information about NAME-OR-ABBREV in a popup buffer.
 
-Works by calling ``)show CONSTRUCTOR-NAME'' in the Axiom process and
+Works by calling ``)show NAME-OR-ABBREV'' in the Axiom process and
 capturing its output.  When called interactively completion is
 performed over all standard constructor names (packages, domains and
-categories).
+categories) and their abbreviations.
 
 If the buffer already exists (from a previous call) then just switch
 to it, unless FORCE-UPDATE is non-nil in which case the buffer is
 reconstructed with another query to the Axiom process.
 
 Interactively, FORCE-UPDATE can be set with a prefix argument."
-  (interactive (list (completing-read "Constructor name: " axiom-standard-constructor-names)
+  (interactive (list (completing-read "Constructor: "
+                                      axiom-standard-constructor-names-and-abbreviations)
                      current-prefix-arg))
   (if (not (get-buffer axiom-process-buffer-name))
       (message axiom-process-not-running-message)
-    (unless (equal "" constructor-name)
-      (let ((bufname (axiom-process-constructor-buffer-name constructor-name)))
+    (unless (equal "" name-or-abbrev)
+      (let ((bufname (axiom-process-constructor-buffer-name name-or-abbrev)))
         (if (and (get-buffer bufname) (not force-update))
             (display-buffer bufname)
           (with-current-buffer (get-buffer-create bufname)
             (setq buffer-read-only nil)
             (erase-buffer)
             (axiom-help-mode)
-            (axiom-process-redirect-send-command (format ")show %s" constructor-name) (current-buffer) t nil nil)
+            (axiom-process-redirect-send-command (format ")show %s" name-or-abbrev) (current-buffer) t nil nil)
             (set-buffer-modified-p nil)
             (setq buffer-read-only t)))))))
 
-(defun axiom-process-show-package (package-name &optional force-update)
-  "Show information about PACKAGE-NAME in a popup buffer.
+(defun axiom-process-show-package (name-or-abbrev &optional force-update)
+  "Show information about NAME-OR-ABBREV in a popup buffer.
 
-Works by calling ``)show PACKAGE-NAME'' in the Axiom process and
+Works by calling ``)show NAME-OR-ABBREV'' in the Axiom process and
 capturing its output.  When called interactively completion is
 performed over all standard package names.
 
@@ -296,14 +326,15 @@ to it, unless FORCE-UPDATE is non-nil in which case the buffer is
 reconstructed with another query to the Axiom process.
 
 Interactively, FORCE-UPDATE can be set with a prefix argument."
-  (interactive (list (completing-read "Package: " axiom-standard-package-names)
+  (interactive (list (completing-read "Package: "
+                                      axiom-standard-package-names-and-abbreviations)
                      current-prefix-arg))
-  (axiom-process-show-constructor package-name force-update))
+  (axiom-process-show-constructor name-or-abbrev force-update))
 
-(defun axiom-process-show-domain (domain-name &optional force-update)
-  "Show information about DOMAIN-NAME in a popup buffer.
+(defun axiom-process-show-domain (name-or-abbrev &optional force-update)
+  "Show information about NAME-OR-ABBREV in a popup buffer.
 
-Works by calling ``)show DOMAIN-NAME'' in the Axiom process and
+Works by calling ``)show NAME-OR-ABBREV'' in the Axiom process and
 capturing its output.  When called interactively completion is
 performed over all standard domain names.
 
@@ -312,14 +343,15 @@ to it, unless FORCE-UPDATE is non-nil in which case the buffer is
 reconstructed with another query to the Axiom process.
 
 Interactively, FORCE-UPDATE can be set with a prefix argument."
-  (interactive (list (completing-read "Domain: " axiom-standard-domain-names)
+  (interactive (list (completing-read "Domain: "
+                                      axiom-standard-domain-names-and-abbreviations)
                      current-prefix-arg))
-  (axiom-process-show-constructor domain-name force-update))
+  (axiom-process-show-constructor name-or-abbrev force-update))
 
-(defun axiom-process-show-category (category-name &optional force-update)
-  "Show information about CATEGORY-NAME in a popup buffer.
+(defun axiom-process-show-category (name-or-abbrev &optional force-update)
+  "Show information about NAME-OR-ABBREV in a popup buffer.
 
-Works by calling ``)show CATEGORY-NAME'' in the Axiom process and
+Works by calling ``)show NAME-OR-ABBREV'' in the Axiom process and
 capturing its output.  When called interactively completion is
 performed over all standard category names.
 
@@ -328,9 +360,10 @@ to it, unless FORCE-UPDATE is non-nil in which case the buffer is
 reconstructed with another query to the Axiom process.
 
 Interactively, FORCE-UPDATE can be set with a prefix argument."
-  (interactive (list (completing-read "Category: " axiom-standard-category-names)
+  (interactive (list (completing-read "Category: "
+                                      axiom-standard-category-names-and-abbreviations)
                      current-prefix-arg))
-  (axiom-process-show-constructor category-name force-update))
+  (axiom-process-show-constructor name-or-abbrev force-update))
 
 (defun axiom-process-display-operation (operation-name &optional force-update)
   "Show information about OPERATION-NAME in a popup buffer.
@@ -373,13 +406,13 @@ operation name and call ``)display operation NAME'' instead.  This can
 be overridden by setting IS-CONSTRUCTOR non-nil, in which case ``)show
 NAME'' will always be called.  Interactively this can be done with a
 prefix argument."
-  (interactive (list (completing-read "Apropos: " axiom-standard-names
+  (interactive (list (completing-read "Apropos: " axiom-standard-names-and-abbreviations
                                       nil nil (thing-at-point 'word))
                      current-prefix-arg))
   (if (not (get-buffer axiom-process-buffer-name))
       (message axiom-process-not-running-message)
     (unless (equal "" name)
-      (cond ((or (member name axiom-standard-constructor-names) is-constructor)
+      (cond ((or (member name axiom-standard-constructor-names-and-abbreviations) is-constructor)
              (axiom-process-show-constructor name t))
             (t
              (axiom-process-display-operation name t))))))
@@ -392,9 +425,12 @@ prefix argument."
 (defvar axiom-process-category-face 'axiom-category-name)
 
 (defvar axiom-process-font-lock-keywords
-  (list (cons axiom-standard-package-names-regexp  'axiom-process-package-face)
-        (cons axiom-standard-domain-names-regexp   'axiom-process-domain-face)
-        (cons axiom-standard-category-names-regexp 'axiom-process-category-face)))
+  (list (cons axiom-standard-package-names-regexp          'axiom-process-package-face)
+        (cons axiom-standard-package-abbreviations-regexp  'axiom-process-package-face)
+        (cons axiom-standard-domain-names-regexp           'axiom-process-domain-face)
+        (cons axiom-standard-domain-abbreviations-regexp   'axiom-process-domain-face)
+        (cons axiom-standard-category-names-regexp         'axiom-process-category-face)
+        (cons axiom-standard-category-abbreviations-regexp 'axiom-process-category-face)))
 
 (define-derived-mode axiom-process-mode comint-mode "Axiom Process"
   "Major mode for interaction with a running Axiom process."
