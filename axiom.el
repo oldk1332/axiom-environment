@@ -47,9 +47,13 @@
 (require 'axiom-process-mode)
 (require 'axiom-input-mode)
 (require 'axiom-spad-mode)
+(require 'axiom-selector)
 
 ;; Setup auto-mode-alist
 (add-to-list 'auto-mode-alist '("\\.input" . axiom-input-mode))
 (add-to-list 'auto-mode-alist '("\\.spad" . axiom-spad-mode))
+
+;; Uncomment this to enable axiom-selector on C-c a
+;(global-set-key (kbd "C-c a") 'axiom-selector)
 
 (provide 'axiom)
