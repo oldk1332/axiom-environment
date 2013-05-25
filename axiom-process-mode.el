@@ -222,7 +222,7 @@ buffer, otherwise do not display it."
       (message axiom-process-not-running-message)
     (progn
       (unless no-display
-        (display-buffer axiom-process-compile-file-buffer-name))
+        (display-buffer (get-buffer-create axiom-process-compile-file-buffer-name)))
       (with-current-buffer axiom-process-buffer-name
         (let ((current-dir (axiom-process-force-cd-update t))
               (result-dir (if axiom-process-compile-file-use-result-directory
