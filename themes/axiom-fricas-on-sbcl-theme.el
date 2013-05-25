@@ -14,31 +14,31 @@
 
 ;;; Code:
 
-(deftheme axiom-fricas
-  "Setup the Axiom environment to be suitable for FriCAS.")
+(deftheme axiom-fricas-on-sbcl
+  "Setup the Axiom environment to be suitable for FriCAS running on SBCL.")
 
-(custom-theme-set-variables 'axiom-fricas
+(custom-theme-set-variables 'axiom-fricas-on-sbcl
   '(axiom-process-program "fricas -nosman"))
 
-(custom-theme-set-variables 'axiom-fricas
+(custom-theme-set-variables 'axiom-fricas-on-sbcl
   '(axiom-process-prompt-regexp "^.*([[:digit:]]+) ->"))
 
-(custom-theme-set-variables 'axiom-fricas
+(custom-theme-set-variables 'axiom-fricas-on-sbcl
   '(axiom-process-break-prompt-regexp "^0]"))
 
-(custom-theme-set-variables 'axiom-fricas
+(custom-theme-set-variables 'axiom-fricas-on-sbcl
   '(axiom-process-preamble ""))
 
-(custom-theme-set-variables 'axiom-fricas
+(custom-theme-set-variables 'axiom-fricas-on-sbcl
   '(axiom-standard-package-info-file "fricas-standard-package-info.el"))
 
-(custom-theme-set-variables 'axiom-fricas
+(custom-theme-set-variables 'axiom-fricas-on-sbcl
   '(axiom-standard-domain-info-file "fricas-standard-domain-info.el"))
 
-(custom-theme-set-variables 'axiom-fricas
+(custom-theme-set-variables 'axiom-fricas-on-sbcl
   '(axiom-standard-category-info-file "fricas-standard-category-info.el"))
 
-(custom-theme-set-variables 'axiom-fricas
+(custom-theme-set-variables 'axiom-fricas-on-sbcl
   '(axiom-standard-operation-info-file "fricas-standard-operation-info.el"))
 
-(provide-theme 'axiom-fricas)
+(provide-theme 'axiom-fricas-on-sbcl)
