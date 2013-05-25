@@ -271,15 +271,19 @@ string (either relative or absolute)."
     (define-key map (kbd "C-c C-r") 'axiom-process-read-file)
     ;; Menu items
     (define-key map [menu-bar axiom-menu] (cons "Axiom" menu-map))
+    (define-key menu-map [axiom-menu-run-axiom]
+      '(menu-item "Run Axiom" run-axiom))
+    (define-key menu-map [axiom-menu-separator-3]
+      '(menu-item "--"))
     (define-key menu-map [axiom-menu-read-file]
       '(menu-item "Read File..." axiom-process-read-file
                   :enable axiom-menu-read-file-enable))
-    (define-key menu-map [axiom-menu-separator-1]
+    (define-key menu-map [axiom-menu-separator-2]
       '(menu-item "--"))
     (define-key menu-map [axiom-menu-compile-file]
       '(menu-item "Compile File..." axiom-process-compile-file
                   :enable axiom-menu-compile-file-enable))
-    (define-key menu-map [axiom-menu-separator-2]
+    (define-key menu-map [axiom-menu-separator-1]
       '(menu-item "--"))
     (define-key menu-map [axiom-menu-apropos]
       '(menu-item "Apropos (at point)..." axiom-process-apropos-thing-at-point))

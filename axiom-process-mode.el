@@ -463,7 +463,7 @@ then simply switch to it."
                          (substring axiom-process-buffer-name 1 -1)
                          (car cmdlist) nil (cdr cmdlist)))
       (axiom-process-mode)))
-  (pop-to-buffer-same-window axiom-process-buffer-name))
+  (pop-to-buffer axiom-process-buffer-name))
 
 (defalias 'run-axiom 'axiom-process-start)
 
