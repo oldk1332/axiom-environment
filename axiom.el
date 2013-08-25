@@ -38,9 +38,9 @@
 (when load-file-name
   (add-to-list 'load-path (file-name-directory load-file-name)))
 
-;; Put the ``themes'' subdirectory in the custom theme load-path
-(when load-file-name
-  (add-to-list 'custom-theme-load-path (concat (file-name-directory load-file-name) "themes/")))
+;; Uncomment this to put the ``themes'' subdirectory in the custom theme load-path
+;;(when (and load-file-name (boundp 'custom-theme-load-path))
+;;  (add-to-list 'custom-theme-load-path (concat (file-name-directory load-file-name) "themes/")))
 
 ;; Load everything
 (require 'axiom-help-mode)

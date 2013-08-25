@@ -1,4 +1,4 @@
-;;; axiom-fricas-on-sbcl-theme.el -- a FriCAS/SBCL flavour for the Axiom environment
+;;; fricas-on-sbcl-theme.el -- a FriCAS/SBCL flavour for the Axiom environment
 
 ;; Copyright (C) 2013 Paul Onions
 
@@ -10,35 +10,36 @@
 
 ;;; Commentary:
 
-;; Setup Axiom environment customizations so they're suitable for FriCAS.
+;; Setup Axiom environment customizations so they're suitable for
+;; FriCAS running on SBCL.
 
 ;;; Code:
 
-(deftheme axiom-fricas-on-sbcl
-  "Setup the Axiom environment to be suitable for FriCAS running on SBCL.")
+(deftheme fricas-on-sbcl
+  "Setup the Axiom environment for FriCAS running on SBCL.")
 
-(custom-theme-set-variables 'axiom-fricas-on-sbcl
+(custom-theme-set-variables 'fricas-on-sbcl
   '(axiom-process-program "fricas -nosman"))
 
-(custom-theme-set-variables 'axiom-fricas-on-sbcl
+(custom-theme-set-variables 'fricas-on-sbcl
   '(axiom-process-prompt-regexp "^.*([[:digit:]]+) ->"))
 
-(custom-theme-set-variables 'axiom-fricas-on-sbcl
+(custom-theme-set-variables 'fricas-on-sbcl
   '(axiom-process-break-prompt-regexp "^0]"))
 
-(custom-theme-set-variables 'axiom-fricas-on-sbcl
+(custom-theme-set-variables 'fricas-on-sbcl
   '(axiom-process-preamble ""))
 
-(custom-theme-set-variables 'axiom-fricas-on-sbcl
+(custom-theme-set-variables 'fricas-on-sbcl
   '(axiom-standard-package-info-file "fricas-standard-package-info.el"))
 
-(custom-theme-set-variables 'axiom-fricas-on-sbcl
+(custom-theme-set-variables 'fricas-on-sbcl
   '(axiom-standard-domain-info-file "fricas-standard-domain-info.el"))
 
-(custom-theme-set-variables 'axiom-fricas-on-sbcl
+(custom-theme-set-variables 'fricas-on-sbcl
   '(axiom-standard-category-info-file "fricas-standard-category-info.el"))
 
-(custom-theme-set-variables 'axiom-fricas-on-sbcl
+(custom-theme-set-variables 'fricas-on-sbcl
   '(axiom-standard-operation-info-file "fricas-standard-operation-info.el"))
 
-(provide-theme 'axiom-fricas-on-sbcl)
+(provide-theme 'fricas-on-sbcl)
