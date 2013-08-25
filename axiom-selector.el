@@ -60,17 +60,16 @@ is chosen."
   (let ((function `(lambda ()
                      (progn ,@body))))
     `(progn
-       (assq-delete-all ,key axiom-selector-functions)
        (setq axiom-selector-functions
              (cons (list ,key ,description ,function)
-                   axiom-selector-functions)))))
+                   (assq-delete-all ,key axiom-selector-functions))))))
 
 (define-axiom-selector-function ?? "Axiom selector help"
   (ignore-errors (kill-buffer axiom-selector-help-buffer-name))
   (with-current-buffer (get-buffer-create axiom-selector-help-buffer-name)
     (insert "Selector Methods:\n\n")
-    (loop for (key line function) in axiom-selector-functions
-          do (insert (format "%c:\t%s\n" key line)))
+    (dolist (entry axiom-selector-functions)
+      (insert (format "%c:\t%s\n" (first entry) (second entry))))
     (help-mode)
     (display-buffer (current-buffer) t)
     (shrink-window-if-larger-than-buffer 
@@ -83,5 +82,31 @@ is chosen."
     (when help-buffer
       (delete-window (get-buffer-window help-buffer))
       (kill-buffer help-buffer))))
+
+(define-axiom-selector-function ?r "Switch to Axiom REPL buffer"
+  (switch-to-buffer axiom-process-buffer-name))
+
+(defun axiom-find-recent-buffer (mode)
+  (let ((bufs (buffer-list (window-frame nil)))
+        (buf nil))
+    (while (and bufs (null buf))
+      (save-excursion
+        (with-current-buffer (first bufs)
+          (when (eql major-mode mode)
+            (setq buf (current-buffer)))))
+      (setq bufs (rest bufs)))
+    buf))
+
+(define-axiom-selector-function ?i "Switch to most recent Axiom Input buffer"
+  (let ((buf (axiom-find-recent-buffer 'axiom-input-mode)))
+    (if buf
+        (switch-to-buffer buf)
+      (message "No Axiom Input buffer found"))))
+
+(define-axiom-selector-function ?s "Switch to most recent Axiom SPAD buffer"
+  (let ((buf (axiom-find-recent-buffer 'axiom-spad-mode)))
+    (if buf
+        (switch-to-buffer buf)
+      (message "No Axiom SPAD buffer found"))))
 
 (provide 'axiom-selector)
