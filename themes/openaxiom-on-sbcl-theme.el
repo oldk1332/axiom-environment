@@ -19,7 +19,7 @@
   "Setup the Axiom environment for OpenAxiom running on SBCL.")
 
 (custom-theme-set-variables 'openaxiom-on-sbcl
-  '(axiom-process-program "openaxiom -no-server"))
+  '(axiom-process-program "open-axiom --no-server"))
 
 (custom-theme-set-variables 'openaxiom-on-sbcl
   '(axiom-process-prompt-regexp "^.*([[:digit:]]+) ->"))
