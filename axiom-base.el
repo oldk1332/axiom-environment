@@ -252,9 +252,11 @@ string (either relative or absolute)."
 ;;
 (defvar axiom-menu-compile-file-enable nil)
 (defvar axiom-menu-read-file-enable nil)
+(defvar axiom-menu-eval-region-enable nil)
 
 (make-variable-buffer-local 'axiom-menu-compile-file-enable)
 (make-variable-buffer-local 'axiom-menu-read-file-enable)
+(make-variable-buffer-local 'axiom-menu-eval-region-enable)
 
 (defvar axiom-common-keymap
   (let ((map (make-sparse-keymap "Axiom"))
@@ -269,6 +271,7 @@ string (either relative or absolute)."
     (define-key map (kbd "C-c C-d a") 'axiom-process-apropos-thing-at-point)
     (define-key map (kbd "C-c C-k") 'axiom-process-compile-file)
     (define-key map (kbd "C-c C-r") 'axiom-process-read-file)
+    (define-key map (kbd "C-c C-e") 'axiom-process-eval-region)
     ;; Menu items
     (define-key map [menu-bar axiom-menu] (cons "Axiom" menu-map))
     (define-key menu-map [axiom-menu-run-axiom]
@@ -278,6 +281,9 @@ string (either relative or absolute)."
     (define-key menu-map [axiom-menu-read-file]
       '(menu-item "Read File..." axiom-process-read-file
                   :enable axiom-menu-read-file-enable))
+    (define-key menu-map [axiom-menu-eval-region]
+      '(menu-item "Eval Region" axiom-process-eval-region
+                  :enable axiom-menu-eval-region-enable))
     (define-key menu-map [axiom-menu-separator-2]
       '(menu-item "--"))
     (define-key menu-map [axiom-menu-compile-file]

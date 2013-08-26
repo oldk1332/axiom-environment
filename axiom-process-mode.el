@@ -115,7 +115,12 @@ the current process-mark, which may be before the end of the buffer if
 the user is part-way through editing the next command."
   (with-current-buffer axiom-process-buffer-name
     (let ((proc (get-buffer-process (current-buffer)))
+          (command-text command)
           (pending-text ""))
+      ;; Remove newlines from end of command string
+      (while (and (> (length command-text) 0)
+                  (char-equal ?\n (aref command-text (1- (length command-text)))))
+        (setq command-text (substring command-text 0 (- (length command-text) 2))))
       ;; Contrary to what it says in the documentation of `comint-send-input',
       ;; calling it sends _all_ text from the process mark to the _end_ of
       ;; the buffer to the process.  So we need to temporarily remove any
@@ -124,7 +129,7 @@ the user is part-way through editing the next command."
       (when (> (point-max) (process-mark proc))
         (setq pending-text (delete-and-extract-region (process-mark proc) (point-max))))
       (goto-char (process-mark proc))
-      (insert command)
+      (insert command-text)
       (comint-send-input nil t)
       (insert pending-text))))
 
@@ -195,6 +200,18 @@ don't display the default-directory in a message."
           (message (format "Current directory now: %s" dirname)))))
     dirname))
   
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Evaluating a region
+;;
+(defun axiom-process-eval-region (start end)
+  "Evaluate the given region in the Axiom process."
+  (interactive "r")
+  (if (null (get-buffer axiom-process-buffer-name))
+      (message axiom-process-not-running-message)
+    (progn
+      (display-buffer axiom-process-buffer-name)
+      (axiom-process-insert-command (buffer-substring-no-properties start end)))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Reading and compiling files
 ;;
