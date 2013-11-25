@@ -61,6 +61,8 @@
   "Major mode for Axiom's SPAD language."
   :group 'axiom
   (setq font-lock-defaults (list axiom-spad-font-lock-keywords))
+  (setq axiom-menu-eval-region-enable t)
+  (setq axiom-menu-read-region-enable t)
   (setq axiom-menu-compile-file-enable t))
 
 (provide 'axiom-spad-mode)

@@ -212,6 +212,17 @@ don't display the default-directory in a message."
       (display-buffer axiom-process-buffer-name)
       (axiom-process-insert-command (buffer-substring-no-properties start end)))))
 
+(defun axiom-process-read-region (start end)
+  "Copy region into a temporary file and )read it."
+  (interactive "r")
+  (if (null (get-buffer axiom-process-buffer-name))
+      (message axiom-process-not-running-message)
+    (progn
+      (display-buffer axiom-process-buffer-name)
+      (let ((tmp-filename (make-temp-file "axiom" nil ".input")))
+        (write-region start end tmp-filename)
+        (axiom-process-insert-command (format ")read %s" tmp-filename))))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Reading and compiling files
 ;;
