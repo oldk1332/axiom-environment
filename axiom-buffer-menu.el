@@ -12,22 +12,46 @@
 
 ;;; Code:
 
-(defvar axiom-buffer-menu-bufname "*Axiom Buffer Menu*"
-  "Name of the buffer in which to display the buffer-menu.")
+(defcustom axiom-buffer-menu-bufname "*Axiom Buffer Menu*"
+  "Name of the buffer in which to display the buffer-menu."
+  :type 'string
+  :group 'axiom)
 
-(defvar axiom-buffer-menu-startcolumn-bufprop 0 "")
-(defvar axiom-buffer-menu-startcolumn-bufname 3 "")
-(defvar axiom-buffer-menu-startcolumn-bufmode 46 "")
-(defvar axiom-buffer-menu-startcolumn-bufpath 60 "")
+(defcustom axiom-buffer-menu-startcolumn-bufprop 0
+  "Starting column from which to display buffer properties."
+  :type 'integer
+  :group 'axiom)
 
-(defvar axiom-buffer-menu-startpoint-input nil "")
-(defvar axiom-buffer-menu-startpoint-spad nil "")
-(defvar axiom-buffer-menu-startpoint-help nil "")
-(defvar axiom-buffer-menu-startpoint-cursor nil "")
+(defcustom axiom-buffer-menu-startcolumn-bufname 3
+  "Starting column from which to display buffer name."
+  :type 'integer
+  :group 'axiom)
+
+(defcustom axiom-buffer-menu-startcolumn-bufmode 46
+  "Starting column from which to display buffer mode."
+  :type 'integer
+  :group 'axiom)
+
+(defcustom axiom-buffer-menu-startcolumn-bufpath 60
+  "Starting column from which to display buffer path."
+  :type 'integer
+  :group 'axiom)
 
 (defface axiom-buffer-menu-group-heading '((t (:weight bold :foreground "maroon")))
   "Face used for displaying Axiom Buffer Menu group headings"
   :group 'axiom)
+
+(defvar axiom-buffer-menu-startpoint-input 0
+  "Starting point of Input buffer list display.")
+
+(defvar axiom-buffer-menu-startpoint-spad 0
+  "Starting point of SPAD buffer list display.")
+
+(defvar axiom-buffer-menu-startpoint-help 0
+  "Starting point of Help buffer list display.")
+
+(defvar axiom-buffer-menu-startpoint-cursor 0
+  "Starting point of cursor in Axiom Buffer Menu buffer.")
 
 (defvar axiom-buffer-menu-mode-map
   (let ((map (make-sparse-keymap "Axiom")))
@@ -45,6 +69,7 @@
     (define-key map (kbd "v") 'axiom-buffer-menu-select)
     (define-key map (kbd "RET") 'axiom-buffer-menu-select)
     (define-key map (kbd "<mouse-1>") 'axiom-buffer-menu-mouse-select)
+    (define-key map (kbd "o") 'axiom-buffer-menu-select-other-window)
     (define-key map (kbd "K") 'axiom-buffer-menu-kill-buffer)
     (define-key map (kbd "B") 'axiom-buffer-menu-bury-buffer)
     map)
@@ -96,6 +121,15 @@
     (cond (selected-buffer
            (switch-to-buffer selected-buffer)
            (kill-buffer axiom-buffer-menu-bufname))
+          (t
+           (message "No buffer on this line")))))
+
+(defun axiom-buffer-menu-select-other-window ()
+  "Display this line's buffer in another window."
+  (interactive)
+  (let ((selected-buffer (axiom-buffer-menu-get-bufname)))
+    (cond (selected-buffer
+           (display-buffer selected-buffer))
           (t
            (message "No buffer on this line")))))
 
@@ -194,8 +228,7 @@
               ((eql show-type :spad)
                (princ "SPAD BUFFERS\n")
                (put-text-property heading-startpoint (point) 'face 'axiom-buffer-menu-group-heading)
-               (setq axiom-buffer-menu-startpoint-spad (point))
-               (setq axiom-buffer-menu-startpoint-cursor (point)))
+               (setq axiom-buffer-menu-startpoint-spad (point)))
               ((eql show-type :help)
                (princ "HELP BUFFERS\n")
                (put-text-property heading-startpoint (point) 'face 'axiom-buffer-menu-group-heading)
@@ -249,6 +282,7 @@
 \\[axiom-buffer-menu-cycle-backward] -- move to previous active line.
 \\[axiom-buffer-menu-select] -- select the buffer named on the current line.
 \\[axiom-buffer-menu-mouse-select] -- select the buffer clicked on with mouse-1.
+\\[axiom-buffer-menu-select-other-window] -- display the buffer named on the current line in another window.
 \\[axiom-buffer-menu-kill-buffer] -- kill the buffer named on the current line.
 \\[axiom-buffer-menu-bury-buffer] -- bury the buffer named on the current line (move to bottom of list).
 \\[axiom-buffer-menu-quit] -- kill the menu buffer, return to previous buffer.
