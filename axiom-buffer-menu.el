@@ -1,4 +1,4 @@
-;;; axiom-buffer-menu.el -- to display a list of buffers
+;;; axiom-buffer-menu.el -- to display a list of Axiom buffers
 
 ;; Copyright (C) 2013 Paul Onions
 
@@ -27,12 +27,7 @@
   :type 'integer
   :group 'axiom)
 
-(defcustom axiom-buffer-menu-startcolumn-bufmode 46
-  "Starting column from which to display buffer mode."
-  :type 'integer
-  :group 'axiom)
-
-(defcustom axiom-buffer-menu-startcolumn-bufpath 60
+(defcustom axiom-buffer-menu-startcolumn-bufpath 46
   "Starting column from which to display buffer path."
   :type 'integer
   :group 'axiom)
@@ -200,7 +195,7 @@
          (goto-char axiom-buffer-menu-startpoint-help))))
 
 (defun axiom-buffer-menu-make-bufname (name)
-  (let ((max-name-length (1- (- axiom-buffer-menu-startcolumn-bufmode axiom-buffer-menu-startcolumn-bufname)))
+  (let ((max-name-length (1- (- axiom-buffer-menu-startcolumn-bufpath axiom-buffer-menu-startcolumn-bufname)))
         (left-trunc-length 12))
     (cond ((<= (length name) max-name-length)
            name)
@@ -246,7 +241,6 @@
                   this-buffer-read-only buffer-read-only
                   this-buffer-name (buffer-name)
                   this-buffer-mode major-mode
-                  this-buffer-mode-name mode-name
                   this-buffer-filename (buffer-file-name)))
           (when (or (and (eql show-type :input) (eql this-buffer-mode 'axiom-input-mode))
                     (and (eql show-type :spad) (eql this-buffer-mode 'axiom-spad-mode))
@@ -264,8 +258,6 @@
             (put-text-property name-startpoint name-endpoint 'buffer-name this-buffer-name)
             (put-text-property name-startpoint name-endpoint 'mouse-face 'highlight)
             (put-text-property name-startpoint name-endpoint 'help-echo this-buffer-name)
-            (indent-to axiom-buffer-menu-startcolumn-bufmode)
-            (princ this-buffer-mode-name)
             (indent-to axiom-buffer-menu-startcolumn-bufpath 1)
             (when this-buffer-filename
               (princ (abbreviate-file-name this-buffer-filename)))
