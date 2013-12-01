@@ -47,6 +47,7 @@
 (require 'axiom-process-mode)
 (require 'axiom-input-mode)
 (require 'axiom-spad-mode)
+(require 'axiom-buffer-menu)
 (require 'axiom-selector)
 
 ;; Setup auto-mode-alist

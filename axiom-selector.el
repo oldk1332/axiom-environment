@@ -109,4 +109,7 @@ is chosen."
         (switch-to-buffer buf)
       (message "No Axiom SPAD buffer found"))))
 
+(define-axiom-selector-function ?b "List Axiom buffers"
+  (axiom-buffer-menu))
+
 (provide 'axiom-selector)

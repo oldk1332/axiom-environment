@@ -55,7 +55,7 @@ Only used when variable
 (defcustom axiom-process-compile-file-use-result-directory nil
   "Non-nil to place compilation results in a central directory.
 
-When non-nil place results in variable
+When non-nil place results in the directory named by variable
 `axiom-process-compile-file-result-directory', otherwise they will be
 placed in the same directory as the source file."
   :type 'boolean
@@ -156,7 +156,7 @@ and if ECHO-RESULT is non-nil then also copy the result too."
 ;; Directory tracking -- track Axiom's notion of ``current directory''
 ;;
 (defun axiom-process-cd-input-filter (str)
-  "Detect when a command that may change the current directory.
+  "Detect a command that may change the current directory.
 
 This function to be added to the `comint-input-filter-functions'
 list."

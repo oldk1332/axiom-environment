@@ -329,6 +329,7 @@ string (either relative or absolute)."
   (load "axiom-process-mode")
   (load "axiom-input-mode")
   (load "axiom-spad-mode")
+  (load "axiom-buffer-menu")
   (load "axiom-selector"))
 
 (provide 'axiom-base)
