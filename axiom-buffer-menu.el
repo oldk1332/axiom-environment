@@ -27,7 +27,7 @@
   :type 'integer
   :group 'axiom)
 
-(defcustom axiom-buffer-menu-startcolumn-bufpath 46
+(defcustom axiom-buffer-menu-startcolumn-bufpath 36
   "Starting column from which to display buffer path."
   :type 'integer
   :group 'axiom)
@@ -194,16 +194,16 @@
         (t
          (goto-char axiom-buffer-menu-startpoint-help))))
 
-(defun axiom-buffer-menu-make-bufname (name)
-  (let ((max-name-length (1- (- axiom-buffer-menu-startcolumn-bufpath axiom-buffer-menu-startcolumn-bufname)))
-        (left-trunc-length 12))
-    (cond ((<= (length name) max-name-length)
+(defun axiom-buffer-menu-make-truncated-name (name max-length)
+  "Construct printed name, truncating if necessary."
+  (let ((left-trunc-length 12))
+    (cond ((or (null max-length) (<= (length name) max-length))
            name)
           (t
            (concat (substring name 0 left-trunc-length)
                    "..."
                    (substring name (- (length name)
-                                      (- max-name-length (+ left-trunc-length 3)))))))))
+                                      (- max-length (+ left-trunc-length 3)))))))))
 
 (defun axiom-buffer-menu-prepare-buffer ()
   "Setup the Axiom Buffer Menu buffer."
@@ -250,7 +250,12 @@
             (princ (if this-buffer-read-only "%" " "))
             (indent-to axiom-buffer-menu-startcolumn-bufname)
             (setq name-startpoint (point))
-            (princ (axiom-buffer-menu-make-bufname this-buffer-name))
+            (princ (axiom-buffer-menu-make-truncated-name
+                    this-buffer-name
+                    (if (or (eql show-type :input) (eql show-type :spad))
+                        (1- (- axiom-buffer-menu-startcolumn-bufpath
+                               axiom-buffer-menu-startcolumn-bufname))
+                      nil)))
             (setq name-endpoint (point))
             ;; Put the buffer name into a text property
             ;; so we don't have to extract it from the text.
