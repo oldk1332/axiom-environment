@@ -43,3 +43,6 @@
 
 ;; Uncomment this to enable axiom-selector on C-c a
 ;;(global-set-key (kbd "C-c a") 'axiom-selector)
+
+;; Uncomment this line to enable experimental org-babel Axiom support
+;;(require 'ob-axiom)

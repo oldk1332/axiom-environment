@@ -2,14 +2,9 @@
 AN AXIOM ENVIRONMENT FOR EMACS
 ==============================
 
-My intention in writing this software is to make it easier to work
-with, and understand, the Axiom, OpenAxiom and FriCAS computer algebra
-systems.  I am writing it to allow me to explore these systems and so
-hopefully become more productive with them.  By publishing it I hope
-that others too will be able to benefit from my efforts.
-
-This software implements four different major modes for the Emacs text
-editor:
+This software is intended to make it easier to work with, and
+understand, the Axiom, OpenAxiom and FriCAS computer algebra systems.
+It implements four different major modes for the Emacs text editor:
 
   1. axiom-process-mode: for interaction with a running Axiom process.
 
@@ -22,13 +17,19 @@ editor:
      SPAD language.
 
 The main features of these modes (so far) are syntax highlighting to
-display package, domain & category names and their abbreviations in
-distinct colours, and quick access to popup buffers displaying summary
-information about these types and their operations.  The former allows
-to see at a glance which ``level'' of the type system we are concerned
-with (domains or categories), and the latter allows us to examine (and
+display package, domain & category names (and their abbreviations) in
+distinct colours, and to give quick access to popup buffers displaying
+summary information about these types and their operations.  The
+syntax highlighting feature allows us to see at a glance which
+``level'' of the type system we are concerned with (domains or
+categories), and the popup buffer feature allows us to examine (and
 re-examine) these types without interupting our workflow
 (i.e. interaction in the Axiom REPL).
+
+There is also an org-babel Axiom extension in development.  This will
+integrate the axiom-environment with org-mode, making available all
+the org-mode goodies, including a literate development/presentation
+style with easy publishing to HTML, PDF, etc.
 
 
 INSTALLATION
@@ -111,4 +112,4 @@ and enter the details there.
 
 --
 Paul Onions
-1 December 2013
+7 December 2013
