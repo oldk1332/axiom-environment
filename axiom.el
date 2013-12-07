@@ -1,4 +1,4 @@
-;;; axiom.el -- an environment for interacting with the Axiom CAS
+;;; axiom.el -- a load-file for the axiom-environment system
 
 ;; Copyright (C) 2013 Paul Onions
 
@@ -10,27 +10,19 @@
 
 ;;; Commentary:
 
-;; An environment for working with the Axiom/OpenAxiom/FriCAS computer
-;; algebra system.
+;; This is an umbrella load-file that sets a few variables and pulls
+;; in the axiom-environment system.
 ;;
-;; This is an umbrella load-file that pulls in the entire environment.
-;;
-;; Use it by putting either
+;; Use it by putting
 ;;
 ;;   (load-file "/FULL/PATH/NAME/OF/THIS/FILE")
 ;;
-;; or, if this directory is already in your load-path, then simply
-;;
-;;   (require 'axiom)
-;;
 ;; into your .emacs file.
 ;;
-;; If you want to be more selective about what gets loaded and exactly
-;; how any global variables (e.g. auto-mode-alist) get modified, then
-;; instead copy-and-paste any wanted bits from this file into your .emacs
-;; file -- after ensuring this source directory is in your load-path with
-;;
-;;   (add-to-list 'load-path "/FULL/PATH/NAME/OF/THIS/DIR")
+;; Alternatively, if you want to be more selective about what global
+;; variables (e.g. auto-mode-alist) get modified, then instead
+;; copy-and-paste any wanted bits from this file into your .emacs
+;; file, ensuring that this directory is also in your `load-path'.
 
 ;;; Code:
 
@@ -42,19 +34,12 @@
 ;;(when (and load-file-name (boundp 'custom-theme-load-path))
 ;;  (add-to-list 'custom-theme-load-path (concat (file-name-directory load-file-name) "themes/")))
 
-;; Load everything
-(require 'axiom-help-mode)
-(require 'axiom-process-mode)
-(require 'axiom-input-mode)
-(require 'axiom-spad-mode)
-(require 'axiom-buffer-menu)
-(require 'axiom-selector)
+;; Load the system
+(require 'axiom-environment)
 
 ;; Setup auto-mode-alist
 (add-to-list 'auto-mode-alist '("\\.input" . axiom-input-mode))
 (add-to-list 'auto-mode-alist '("\\.spad" . axiom-spad-mode))
 
 ;; Uncomment this to enable axiom-selector on C-c a
-;(global-set-key (kbd "C-c a") 'axiom-selector)
-
-(provide 'axiom)
+;;(global-set-key (kbd "C-c a") 'axiom-selector)
