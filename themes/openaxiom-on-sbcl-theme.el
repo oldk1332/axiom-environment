@@ -28,7 +28,7 @@
   '(axiom-process-break-prompt-regexp "^0]"))
 
 (custom-theme-set-variables 'openaxiom-on-sbcl
-  '(axiom-process-preamble ""))
+  '(axiom-process-preamble ")set messages highlighting off"))
 
 (custom-theme-set-variables 'openaxiom-on-sbcl
   '(axiom-standard-package-info-file "openaxiom-standard-package-info.el"))
