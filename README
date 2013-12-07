@@ -78,9 +78,10 @@ exist, for different aspects of the environment, under the ``Axiom''
 customization group.
 
 An easy way of managing arbitrary collections of customization
-variables is available via the Emacs ``theme'' mechanism.  An example
-theme file showing how to setup the environment to work with FriCAS on
-SBCL is included in the ``themes'' subdirectory of this distribution.
+variables is available via the Emacs ``theme'' mechanism.  Example
+themes showing how to setup the environment to work with FriCAS or
+OpenAxiom on SBCL are included in the ``themes'' subdirectory of this
+distribution.
 
 
 REQUIREMENTS
