@@ -45,7 +45,7 @@
 ;; be called by the `org-babel-execute:axiom' function below.
 (defun org-babel-expand-body:axiom (body params &optional processed-params)
   "Expand BODY according to PARAMS, return the expanded body."
-  (split-string body "\n"))
+  body)
 
 ;; This is the main function which is called to evaluate a code
 ;; block.
@@ -70,21 +70,13 @@
   "Execute a block of Axiom code with org-babel.
 This function is called by `org-babel-execute-src-block'"
   (let* ((processed-params (org-babel-process-params params))
-         (session (org-babel-axiom-initiate-session
-                   (cdr (assoc :session processed-params))))
-         (lines (org-babel-expand-body:axiom
-                 body params processed-params)))
+         (lines (split-string (org-babel-expand-body:axiom body params processed-params)
+                              "\n"))
+         (output ""))
     (with-axiom-process-query-buffer
      (dolist (line lines)
        (axiom-process-redirect-send-command line (current-buffer) nil t t))
      (buffer-substring (point-min) (point-max)))))
-
-(defun org-babel-axiom-initiate-session (&optional session)
-  "Initialize Axiom session, return the session buffer."
-  (unless (equal session "none")
-    (when (null (get-buffer axiom-process-buffer-name))
-      (axiom-process-start axiom-process-program))
-    (get-buffer axiom-process-buffer-name)))
 
 ;; ;; This function should be used to assign any variables in params in
 ;; ;; the context of the session environment.
