@@ -1,0 +1,115 @@
+
+AN AXIOM ENVIRONMENT FOR EMACS
+==============================
+
+This software is intended to make it easier to work with, and
+understand, the Axiom, OpenAxiom and FriCAS computer algebra systems.
+It implements four different major modes for the Emacs text editor:
+
+  1. axiom-process-mode: for interaction with a running Axiom process.
+
+  2. axiom-help-mode: for displaying help information about the Axiom
+     system.
+  
+  3. axiom-input-mode: for editing a .input (Axiom script) file.
+
+  4. axiom-spad-mode: for editing Axiom library code written in the
+     SPAD language.
+
+The main features of these modes (so far) are syntax highlighting to
+display package, domain & category names (and their abbreviations) in
+distinct colours, and to give quick access to popup buffers displaying
+summary information about these types and their operations.  The
+syntax highlighting feature allows us to see at a glance which
+``level'' of the type system we are concerned with (domains or
+categories), and the popup buffer feature allows us to examine (and
+re-examine) these types without interupting our workflow
+(i.e. interaction in the Axiom REPL).
+
+There is also an org-babel Axiom extension in development.  This will
+integrate the axiom-environment with org-mode, making available all
+the org-mode goodies, including a literate development/presentation
+style with easy publishing to HTML, PDF, etc.
+
+
+INSTALLATION
+============
+
+To install the software the easiest thing to do is to clone the
+mercurial repository (hosted at bitbucket.org) into your directory of
+choice:
+
+  cd /my/directory/of/choice
+
+  hg clone http://bitbucket.org/pdo/axiom-environment
+
+then add the following line to your .emacs file:
+
+  (load-file "/my/directory/of/choice/axiom-environment/axiom.el")
+
+This will load the environment, automatically putting .spad and .input
+files into ``Axiom SPAD'' and ``Axiom Input'' mode, respectively, and
+giving access to an ``Axiom'' menu in these modes.
+
+Also available is the ``Axiom Selector'' function, to give quick
+access to Axiom buffers.  This is most useful when bound to a key
+sequence that is accessible from any buffer.  For example
+
+  (global-set-key (kbd "C-c a") 'axiom-selector)
+
+in your .emacs file will do nicely.  Then you can do `C-c a ?' to
+bring up a summary of selector commands.  Highlights include `C-c a r'
+to switch to the Axiom REPL buffer, and 'C-c a b' to bring up a buffer
+listing all available Axiom buffers and allowing you to select one to
+switch to, or display in another window.  Type `?' or the usual `C-h
+m' to bring up a summary of Axiom Buffer Menu mode's commands.
+
+To exercise more control over how exactly the environment is setup,
+please see the comments at the start of the ``axiom.el'' file.
+
+To start an interactive Axiom session do:
+
+  M-x run-axiom
+
+Note that by default this will attempt to start the FriCAS program
+(with command "fricas -nosman"), but that this can be changed using an
+Emacs customization variable.  In fact many customization variables
+exist, for different aspects of the environment, under the ``Axiom''
+customization group.
+
+An easy way of managing arbitrary collections of customization
+variables is available via the Emacs ``theme'' mechanism.  Example
+themes showing how to setup the environment to work with FriCAS or
+OpenAxiom on SBCL are included in the ``themes'' subdirectory of this
+distribution.
+
+
+REQUIREMENTS
+============
+
+Please note that development of this software started with Emacs 24.2
+and it is quite likely that it won't work with earlier versions.
+
+
+BUGS
+====
+
+Testing so far has been limited to FriCAS and OpenAxiom (both built
+with SBCL) running on MacOSX.  It hasn't yet received any testing with
+Axiom because I can't get Axiom to build on MacOSX.  However, there
+should be no reason (as far as I know) for it not working with Axiom
+on other OSes, so I would consider it a bug if you encounter problems.
+
+Please send bug reports to:
+
+  Paul Onions <paul.onions@acm.org>
+
+or click on the issue tracker tab at:
+
+  http://bitbucket.org/pdo/axiom-environment/
+
+and enter the details there.
+
+--
+Paul Onions
+7 December 2013
