@@ -94,11 +94,9 @@ and it is quite likely that it won't work with earlier versions.
 BUGS
 ====
 
-Testing so far has been limited to FriCAS and OpenAxiom (both built
-with SBCL) running on MacOSX.  It hasn't yet received any testing with
-Axiom because I can't get Axiom to build on MacOSX.  However, there
-should be no reason (as far as I know) for it not working with Axiom
-on other OSes, so I would consider it a bug if you encounter problems.
+Testing so far has been with Axiom, OpenAxiom and FriCAS running on
+MacOSX (the latter two built with SBCL).  It should of course run on
+other OSes too.
 
 Please send bug reports to:
 
@@ -112,4 +110,4 @@ and enter the details there.
 
 --
 Paul Onions
-7 December 2013
+31 August 2014
