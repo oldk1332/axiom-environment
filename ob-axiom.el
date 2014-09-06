@@ -67,8 +67,8 @@
 (defun org-babel-variable-assignments:axiom (params)
   "Return a list of Axiom statements assigning the block's variables.
 This function called by `org-babel-expand-src-block'."
-  ;; !!! TODO !!!
-  nil)
+  (let ((vars (mapcar #'cdr (org-babel-get-header params :var))))
+    (mapcar (lambda (pair) (format "%S := %S\n" (car pair) (cdr pair))) vars)))
 
 (defun org-babel-expand-body:axiom (body params)
   "Expand BODY with PARAMS."
@@ -84,6 +84,7 @@ This function is called by `org-babel-execute-src-block'."
     (let ((axiom-process-buffer-name session))  ; dynamic binding
       (with-axiom-process-query-buffer
        (dolist (line lines)
+         (insert-before-markers line)
          (axiom-process-redirect-send-command line (current-buffer) nil t t))
        (buffer-substring (point-min) (point-max))))))
 

@@ -13,13 +13,19 @@ browser, do `C-c C-e b' in an Emacs org-mode buffer.
 Define a couple of polynomials over the rationals, $p=x^2+1$ and
 $q=x^3+1$, by
 
-#+BEGIN_SRC axiom :exports both
+#+BEGIN_SRC axiom :exports results
 p : UP(x, Fraction Integer) := x^2 + 1
 q : UP(x, Fraction Integer) := x^3 + 1
 #+END_SRC
 
 then multiply them together
 
-#+BEGIN_SRC axiom :exports both
+#+BEGIN_SRC axiom :exports results
 a := p*q
+#+END_SRC
+
+Now supply some variables from Emacs
+
+#+BEGIN_SRC axiom :exports results :var r=42 s=3.2
+b := r+s
 #+END_SRC
